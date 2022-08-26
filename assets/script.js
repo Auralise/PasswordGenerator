@@ -33,7 +33,7 @@ function generatePassword() {
     }
 
     //print rules
-    console.log(rules);
+    //console.log(rules);
 
     //Don't declare dictionary object until required
     const dictionary = {
@@ -67,7 +67,7 @@ function generatePassword() {
     let passwordOptions = dictionary.constructPasswordString(rules);
 
     //Log to validate password options array
-    console.log(passwordOptions);
+    //console.log(passwordOptions);
 
     //implicitly declare string for return value
     var passwordOut = ''; 
