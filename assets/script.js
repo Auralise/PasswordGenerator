@@ -16,8 +16,6 @@ generateBtn.addEventListener("click", writePassword);
 //generate the password
 function generatePassword() {
 
-    var passwordOut = ''; //implicitly declare string 
-
     rules = getUserParams() //get user input
 
     switch (rules) {
@@ -56,7 +54,7 @@ function generatePassword() {
             if(rulesIn.numeric){
                 passwordString = passwordString.concat(this.numeric);
             }
-            if(rulesIn.numeric){
+            if(rulesIn.special){
                 passwordString = passwordString.concat(this.special);
             }
             
@@ -71,18 +69,19 @@ function generatePassword() {
     //Log to validate password options array
     console.log(passwordOptions);
 
+    //implicitly declare string for return value
+    var passwordOut = ''; 
+
+    
     //build password from possible options
     for(let i = 0; i < rules.length; i++)
     {
+        //for the length requested, add this many characters at random from the array of possible options
         passwordOut += passwordOptions[Math.floor(Math.random() * passwordOptions.length)];
     }
 
     return passwordOut;
 }
-
-// function constructPasswordString(rules, dictionary){
-
-// }
 
 
 function getUserParams() {
@@ -95,19 +94,24 @@ function getUserParams() {
     };
 
     var pwLength = window.prompt("How long do you want your password to be?\nNOTE: Password must be between 8 and 128 characters long")
+
     if (pwLength === null) {
         return -1; //User hit cancel
-    } else if (isNaN(parseInt(pwLength)) || parseInt(pwLength) < 8 || parseInt(pwLength) > 128) {
-        return -2;
+    } else if (pwLength.includes(".") || isNaN(parseInt(pwLength))) {
+        return -2; // Fail because number is not an integer or is not a number
+    } else if (parseInt(pwLength) < 8 || parseInt(pwLength) > 128) {
+        return -2; // Fail, outside of acceptable range
     } else {
         passwordRules.length = parseInt(pwLength);
     };
 
+    //set other rules
     passwordRules.lower = window.confirm("Do you want Lower Case letters (e.g. abcd) in your password?");
     passwordRules.upper = window.confirm("Do you want Upper Case letters (e.g. ABCD) in your password?");
     passwordRules.numeric = window.confirm("Do you want numbers (e.g. 1234) in your password?");
     passwordRules.special = window.confirm("Do you want special characters (e.g. #$%^) in your password?");
 
+    //check if one or more rules have been selected
     if (!passwordRules.lower && !passwordRules.upper && !passwordRules.numeric && !passwordRules.special) {
         return -3;
     }
@@ -115,10 +119,4 @@ function getUserParams() {
     return passwordRules;
 
 }
-
-//get user parameters
-//  password is no shorter than 8 characters and no more than 128 characters
-//  password must contain a non-zero number of these categories of lower, upper, numeric, special char
-//  
-
 
