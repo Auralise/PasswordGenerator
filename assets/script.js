@@ -40,24 +40,24 @@ function generatePassword() {
         lowercase: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',],
         uppercase: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',],
         numeric: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0',],
-        //excluded whitespace from this list for possible ambiguity
+        //excluded whitespace from this list for possible ambiguity - https://owasp.org/www-community/password-special-characters
         special: ['!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~',],
 
         constructPasswordString: function (rulesIn) {
             let passwordString = [];
-            if(rulesIn.lower){
+            if (rulesIn.lower) {
                 passwordString = passwordString.concat(this.lowercase);
             }
-            if(rulesIn.upper){
+            if (rulesIn.upper) {
                 passwordString = passwordString.concat(this.uppercase);
             }
-            if(rulesIn.numeric){
+            if (rulesIn.numeric) {
                 passwordString = passwordString.concat(this.numeric);
             }
-            if(rulesIn.special){
+            if (rulesIn.special) {
                 passwordString = passwordString.concat(this.special);
             }
-            
+
             return passwordString;
         },
 
@@ -70,12 +70,11 @@ function generatePassword() {
     //console.log(passwordOptions);
 
     //implicitly declare string for return value
-    var passwordOut = ''; 
+    var passwordOut = '';
 
-    
+
     //build password from possible options
-    for(let i = 0; i < rules.length; i++)
-    {
+    for (let i = 0; i < rules.length; i++) {
         //for the length requested, add this many characters at random from the array of possible options
         passwordOut += passwordOptions[Math.floor(Math.random() * passwordOptions.length)];
     }
